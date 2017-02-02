@@ -2,16 +2,15 @@ package com.example.ln_20.jsonexample.design;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.example.ln_20.jsonexample.http.HttpHandler;
 import com.example.ln_20.jsonexample.R;
+import com.example.ln_20.jsonexample.adapter.ContactAdapter;
+import com.example.ln_20.jsonexample.http.HttpHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = MainActivity.class.getName();
-    private ListView listView;
+    private RecyclerView recyclerView;
     private ProgressDialog dialog;
 
     // URL to get contacts JSON
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         contactList = new ArrayList<>();
-        listView = (ListView) findViewById(R.id.myList);
+        recyclerView = (RecyclerView) findViewById(R.id.myList);
 
         new GetContacts().execute();
     }
@@ -133,12 +132,16 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-            ListAdapter adapter = new SimpleAdapter(MainActivity.this, contactList,
-                    R.layout.mylist_view, new String[]{"name", "email",
-                    "mobile"}, new int[]{R.id.listname,
-                    R.id.listemail, R.id.listphn});
+//            ListAdapter adapter = new SimpleAdapter(MainActivity.this, contactList,
+//                    R.layout.mylist_view, new String[]{"name", "email",
+//                    "mobile"}, new int[]{R.id.listname,
+//                    R.id.listemail, R.id.listphn});
 
-            listView.setAdapter(adapter);
+//            listView.setAdapter(adapter);
+
+            ContactAdapter adapter = new ContactAdapter(MainActivity.this, contactList);
+            recyclerView.setAdapter(adapter);
+
         }
 
     }
